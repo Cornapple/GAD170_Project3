@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Camera playerCamera;
     public float speed = 12f;
     public float speedH = 2.0f;
     public float speedV = 2.0f;
     public float yaw = 0.0f;
     public float pitch = 0.0f;
 
+    public GameObject Player;
+    public DisplayText displayText;
+
     public CharacterController controller;
     private Vector3 velocity;
+
+    
+    public int lifeCount = 0;
 
     // Customisable gravity
     public float gravity = -20f;
@@ -35,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
             controller = GetComponent<CharacterController>();
         }
 
+        lifeCount = 5;
+        Debug.Log("You have" + lifeCount + "lives");
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -43,7 +55,8 @@ public class PlayerMovement : MonoBehaviour
         // These lines let the script rotate the player based on the mouse moving
         yaw += speedH * Input.GetAxis("Mouse X");
         pitch -= speedV * Input.GetAxis("Mouse Y");
-
+        pitch = Mathf.Clamp(pitch, -40, 40);
+        
         // Get the Left/Right and Forward/Back values of the input being used (WASD, Joystick etc.)
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -56,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Rotate the player based off those mouse values we collected earlier
         transform.eulerAngles = new Vector3(0.0f, yaw, 0.0f);
+        playerCamera.transform.eulerAngles = new Vector3(pitch, yaw, 0);
 
         // This is stealing the data about the player being on the ground from the character controller
         isGrounded = controller.isGrounded;
@@ -73,5 +87,44 @@ public class PlayerMovement : MonoBehaviour
 
         // Finally, it applies that vector it just made to the character
         controller.Move(move * speed * Time.deltaTime + velocity * Time.deltaTime);
+
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            OnDeath();
+        }
+    }
+
+    public void OnDeath()
+    {
+        displayText.ClearText();
+        lifeCount += lifeCount - 1;
+        Debug.Log("You have drowned. Press R to Respawn");
+        Debug.Log(lifeCount);
+        displayText.AddText("You have drowned. Press R to Respawn");
+
+        Respawn();
+    }
+
+    public void Respawn()
+    {
+        if(Input.GetKeyDown (KeyCode.R))
+        { 
+        DisableMovement();
+        Player.transform.position = new Vector3(0, 0, 0);
+        EnableMovement();
+        }
+    }
+
+    public void DisableMovement()
+    {
+        CharacterController cc = GetComponent<CharacterController>();
+        cc.enabled = false;
+    }
+
+    public void EnableMovement()
+    {
+        CharacterController cc = GetComponent<CharacterController>();
+        cc.enabled = true;
     }
 }

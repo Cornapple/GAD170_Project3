@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class Triggers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        displayText.AddText("Make your way to the fire");
     }
 
     // Update is called once per frame
@@ -35,8 +36,14 @@ public class Triggers : MonoBehaviour
             displayText.AddText("Press Space to Jump...");
             Debug.Log("Press Space to Jump...");
         }
-    }
 
+        if (tag == "River")
+        {
+            displayText.AddText("You Have lost a life");
+            PlayerMovement Respawn = GetComponent<PlayerMovement>();
+         
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         Debug.Log("Leaving Trigger");
@@ -51,5 +58,16 @@ public class Triggers : MonoBehaviour
             displayText.ClearText();
             Debug.Log("Text cleared");
         }
+
+        if(tag == "RiverTrigger")
+        {
+            displayText.ClearText();
+            Debug.Log("Text cleared");
+        }
     }
+
+  
+   
+
+    
 }
