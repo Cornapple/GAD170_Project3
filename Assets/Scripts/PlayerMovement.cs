@@ -106,13 +106,15 @@ public class PlayerMovement : MonoBehaviour
     {
         for  (int i = 0; lifeCount < 5; i++) 
         {
-            displayText.ClearText();
-            lifeCount += lifeCount;
-            Debug.Log(lifeCount);
-            displayText.AddText("You have drowned. Press R to Respawn");
-            Debug.Log("You have drowned. Press R to Respawn");
             DisableMovement();
-            Player.transform.position = new Vector3(0, 0, 0);
+            displayText.ClearText();
+            lifeCount += 1;
+
+            Debug.Log(lifeCount);
+            Debug.Log("You have drowned. Press R to Respawn");
+
+            displayText.AddText("You have drowned. Press R to Respawn");
+            Player.transform.position = new Vector3(-90, 73, -73);
             EnableMovement();
             
         }

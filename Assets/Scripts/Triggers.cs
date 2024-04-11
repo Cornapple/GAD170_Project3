@@ -43,8 +43,8 @@ public class Triggers : MonoBehaviour
             displayText.AddText("You Have Drowned.");
             Debug.Log("You have drowned");
             //playerMovement = GetComponent<PlayerMovement>();
-            playerMovement.Respawn();
             Debug.Log("Respawn function called");
+            playerMovement.Respawn();
         }
 
         //if (tag == "RespawnTrigger")
