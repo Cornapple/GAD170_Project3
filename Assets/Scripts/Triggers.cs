@@ -6,6 +6,7 @@ using UnityEngine;
 public class Triggers : MonoBehaviour
 {
     public DisplayText displayText;
+    public PlayerMovement playerMovement;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,17 +33,25 @@ public class Triggers : MonoBehaviour
         if (tag == "JumpTextTrigger")
         {
             displayText.ClearText();
-            other.transform.GetComponent<DisplayText>();
             displayText.AddText("Press Space to Jump...");
             Debug.Log("Press Space to Jump...");
         }
 
-        if (tag == "River")
+        if (tag == "RiverTrigger")
         {
-            displayText.AddText("You Have lost a life");
-            PlayerMovement Respawn = GetComponent<PlayerMovement>();
-         
+            displayText.ClearText();
+            displayText.AddText("You Have Drowned.");
+            Debug.Log("You have drowned");
+            //playerMovement = GetComponent<PlayerMovement>();
+            playerMovement.Respawn();
+            Debug.Log("Respawn function called");
         }
+
+        //if (tag == "RespawnTrigger")
+        //{
+        //    displayText.ClearText();
+        //    displayText.AddText("You have reached a respawn point. If you drown, you will respawn here. If you drown 5 times, the game will Restart.");
+        //}
     }
     private void OnTriggerExit(Collider other)
     {
@@ -59,11 +68,11 @@ public class Triggers : MonoBehaviour
             Debug.Log("Text cleared");
         }
 
-        if(tag == "RiverTrigger")
-        {
-            displayText.ClearText();
-            Debug.Log("Text cleared");
-        }
+        //if(tag == "RiverTrigger")
+        //{
+        //    displayText.ClearText();
+        //    Debug.Log("Text cleared");
+        //}
     }
 
   

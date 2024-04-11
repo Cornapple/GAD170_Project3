@@ -89,31 +89,35 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime + velocity * Time.deltaTime);
 
 
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            OnDeath();
-        }
+        //if (Input.GetKeyDown(KeyCode.X))
+        //{
+        //    OnDeath();
+        //}
     }
 
-    public void OnDeath()
-    {
-        displayText.ClearText();
-        lifeCount += lifeCount - 1;
-        Debug.Log("You have drowned. Press R to Respawn");
-        Debug.Log(lifeCount);
-        displayText.AddText("You have drowned. Press R to Respawn");
+    //public void OnDeath()
+    //{
+        
 
-        Respawn();
-    }
+    //    Respawn();
+    //}
 
     public void Respawn()
     {
-        if(Input.GetKeyDown (KeyCode.R))
-        { 
-        DisableMovement();
-        Player.transform.position = new Vector3(0, 0, 0);
-        EnableMovement();
+        for  (int i = 0; lifeCount < 5; i++) 
+        {
+            displayText.ClearText();
+            lifeCount += lifeCount;
+            Debug.Log(lifeCount);
+            displayText.AddText("You have drowned. Press R to Respawn");
+            Debug.Log("You have drowned. Press R to Respawn");
+            DisableMovement();
+            Player.transform.position = new Vector3(0, 0, 0);
+            EnableMovement();
+            
         }
+
+
     }
 
     public void DisableMovement()
